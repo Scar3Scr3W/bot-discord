@@ -1,0 +1,30 @@
+import discord
+from gen_pass import *
+
+# la variabile intents contiene i permessi al bot
+intents = discord.Intents.default()
+# abilita il permesso a leggere i contenuti dei messaggi
+intents.message_content = True
+# crea un bot e passa gli indents
+client = discord.Client(intents=intents)
+
+@client.event
+async def on_ready():
+    print(f'Abbiamo fatto l\'accesso come {client.user}')
+
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+    if message.content.startswith('$ciao'):
+        await message.channel.send("Ciao, sono il bot!")
+    elif message.content.startswith('$arrivederci'):
+        await message.channel.send("\U0001f642")
+    elif message.content.startswith('$generaPassword'):
+        await message.channel.send("la tua password e': " + generatore_password(10))
+    elif message.content.startswith('$lanciaMoneta'):
+        await message.channel.send("il risultato e': " + flip_coin())
+    else:
+        await message.channel.send(message.content)
+
+client.run("INSERIRE IL TOKEN QUA!")
